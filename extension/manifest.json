@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "LeakGuard",
+  "version": "1.0.0",
   "description": "Intelligent Data Leak Prevention for AI Platforms",
-  "version": "1.0",
 
   "permissions": [
     "storage",
@@ -38,8 +38,9 @@
       ],
       "js": [
         "detector.js",
-        "policyManager.js",
         "sanitizer.js",
+        "popupUI.js",
+        "policyManager.js",
         "content.js"
       ],
       "run_at": "document_idle"

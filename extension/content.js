@@ -1,54 +1,86 @@
-// LeakGuard - Content Script
+// ======================================
+// LeakGuard Content Script
+// ======================================
 
 console.log("🛡️ LeakGuard Content Script Loaded");
 
-// Wait until page loads
+let popupOpen = false;
+
 window.addEventListener("load", () => {
-
-    startMonitoring();
-
+    initializeLeakGuard();
 });
 
-function startMonitoring() {
+function initializeLeakGuard() {
 
-    console.log("🔍 Monitoring started...");
+    console.log("🔍 LeakGuard Monitoring Started");
 
-    // Observe the page because ChatGPT loads elements dynamically
     const observer = new MutationObserver(() => {
 
         const inputBox = document.querySelector('[contenteditable="true"]');
 
-        if (inputBox && !inputBox.dataset.leakguard) {
+        if (!inputBox) return;
 
-            inputBox.dataset.leakguard = "true";
+        if (inputBox.dataset.leakguardAttached) return;
 
-            console.log("✅ Prompt box detected");
+        inputBox.dataset.leakguardAttached = "true";
 
-            // Detect typing
-            inputBox.addEventListener("input", () => {
+        console.log("✅ Prompt Box Detected");
 
-                const text = inputBox.innerText;
+        // Detect typing
+        inputBox.addEventListener("input", () => {
+            checkPrompt(inputBox);
+        });
 
-                console.log("Typing:", text);
+        // Detect paste
+        inputBox.addEventListener("paste", () => {
 
-            });
+            setTimeout(() => {
 
-            // Detect paste
-            inputBox.addEventListener("paste", () => {
+                checkPrompt(inputBox);
 
-                console.log("📋 Paste detected");
+            }, 50);
 
-            });
-
-        }
+        });
 
     });
 
     observer.observe(document.body, {
-
         childList: true,
         subtree: true
-
     });
+
+}
+
+function checkPrompt(inputBox) {
+
+    const text = inputBox.innerText.trim();
+
+    if (text.length === 0) return;
+
+    console.log("Checking Prompt:");
+    console.log(text);
+
+    const findings = LeakDetector.detect(text);
+
+    if (findings.length === 0) {
+
+        popupOpen = false;
+        return;
+
+    }
+
+    console.table(findings);
+
+    if (popupOpen) return;
+
+    popupOpen = true;
+
+    showLeakGuardPopup(findings, text, inputBox);
+
+}
+
+function closeLeakGuardPopup() {
+
+    popupOpen = false;
 
 }
