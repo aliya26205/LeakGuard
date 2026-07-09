@@ -5,73 +5,131 @@
 console.log("🛡️ Popup UI Loaded");
 
 function showLeakGuardPopup(findings, originalText, inputBox) {
+  const old = document.getElementById("leakguard-overlay");
+  if (old) old.remove();
 
-    // Prevent multiple popups
-    const oldPopup = document.getElementById("leakguard-overlay");
-    if (oldPopup) {
-        oldPopup.remove();
-    }
+  // Highest risk
+  let highestRisk = "Low";
 
-    // Create overlay
-    const overlay = document.createElement("div");
-    overlay.id = "leakguard-overlay";
+  findings.forEach((f) => {
+    if (f.risk === "Critical") highestRisk = "Critical";
+    else if (f.risk === "High" && highestRisk !== "Critical")
+      highestRisk = "High";
+    else if (
+      f.risk === "Medium" &&
+      highestRisk !== "Critical" &&
+      highestRisk !== "High"
+    )
+      highestRisk = "Medium";
+  });
 
-    overlay.style.position = "fixed";
-    overlay.style.top = "0";
-    overlay.style.left = "0";
-    overlay.style.width = "100vw";
-    overlay.style.height = "100vh";
-    overlay.style.background = "rgba(0,0,0,0.45)";
-    overlay.style.backdropFilter = "blur(5px)";
-    overlay.style.display = "flex";
-    overlay.style.justifyContent = "center";
-    overlay.style.alignItems = "center";
-    overlay.style.zIndex = "999999999";
+  let riskColor = "#16a34a";
 
-    // Popup card
-    const popup = document.createElement("div");
+  if (highestRisk === "Medium") riskColor = "#f59e0b";
 
-    popup.style.width = "430px";
-    popup.style.background = "#ffffff";
-    popup.style.borderRadius = "16px";
-    popup.style.padding = "25px";
-    popup.style.fontFamily = "Segoe UI, Arial";
-    popup.style.boxShadow = "0 15px 40px rgba(0,0,0,.25)";
-    popup.style.animation = "popupFade .25s ease";
+  if (highestRisk === "High") riskColor = "#ef4444";
 
-    let detected = "";
+  if (highestRisk === "Critical") riskColor = "#7f1d1d";
 
-    findings.forEach(item => {
-        detected += `
-        <li style="margin:6px 0;">
-            🔴 <b>${item.type}</b>
-            <span style="color:#666;">(${item.risk})</span>
-        </li>`;
-    });
+  //-------------------------------------------------------
 
-    popup.innerHTML = `
+  const overlay = document.createElement("div");
+
+  overlay.id = "leakguard-overlay";
+
+  overlay.style.position = "fixed";
+  overlay.style.left = "0";
+  overlay.style.top = "0";
+  overlay.style.width = "100%";
+  overlay.style.height = "100%";
+  overlay.style.background = "rgba(0,0,0,.45)";
+  overlay.style.backdropFilter = "blur(4px)";
+  overlay.style.display = "flex";
+  overlay.style.justifyContent = "center";
+  overlay.style.alignItems = "center";
+  overlay.style.zIndex = "99999999";
+
+  //-------------------------------------------------------
+
+  const popup = document.createElement("div");
+
+  popup.style.width = "520px";
+  popup.style.background = "#ffffff";
+  popup.style.borderRadius = "18px";
+  popup.style.padding = "28px";
+  popup.style.fontFamily = "Segoe UI";
+  popup.style.boxShadow = "0 20px 45px rgba(0,0,0,.35)";
+  popup.style.color = "#111827";
+
+  //-------------------------------------------------------
+
+  let detectedHTML = "";
+
+  findings.forEach((item) => {
+    detectedHTML += `
+
+        <div style="
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-top:10px;
+            padding:10px;
+            background:#f8fafc;
+            border-radius:8px;
+        ">
+
+            <span style="
+                color:#111827;
+                font-weight:600;
+            ">
+                ${item.type}
+            </span>
+
+            <span style="
+                color:${riskColor};
+                font-weight:bold;
+            ">
+                ${item.risk}
+            </span>
+
+        </div>
+
+        `;
+  });
+
+  popup.innerHTML = `
+
         <div style="text-align:center;">
 
             <div style="
-                width:70px;
-                height:70px;
+                width:85px;
+                height:85px;
                 margin:auto;
-                background:#ef4444;
-                color:white;
                 border-radius:50%;
+                background:#ef4444;
                 display:flex;
                 justify-content:center;
                 align-items:center;
-                font-size:34px;
+                font-size:40px;
+                color:white;
             ">
                 ⚠
             </div>
 
-            <h2 style="margin:15px 0 5px;">
+            <h1 style="
+                margin-top:20px;
+                margin-bottom:10px;
+                color:#111827;
+                font-size:28px;
+            ">
                 LeakGuard Warning
-            </h2>
+            </h1>
 
-            <p style="color:#555;">
+            <p style="
+                color:#4b5563;
+                font-size:17px;
+                margin-bottom:20px;
+            ">
                 Sensitive information detected in your prompt.
             </p>
 
@@ -79,37 +137,50 @@ function showLeakGuardPopup(findings, originalText, inputBox) {
 
         <hr>
 
-        <h3>Detected Data</h3>
+        <h2 style="
+            color:#111827;
+            margin-top:18px;
+        ">
+            Detected Data
+        </h2>
 
-        <ul style="padding-left:18px;">
-            ${detected}
-        </ul>
+        ${detectedHTML}
 
         <div style="
-            background:#fff4e5;
-            border-left:5px solid orange;
-            padding:10px;
-            margin-top:15px;
-            border-radius:6px;
+            margin-top:22px;
+            padding:14px;
+            border-radius:10px;
+            background:#fff7ed;
+            border-left:6px solid ${riskColor};
+            color:#111827;
+            font-size:18px;
         ">
+
             Risk Level :
-            <b style="color:red;">HIGH</b>
+            <span style="
+                color:${riskColor};
+                font-weight:bold;
+            ">
+                ${highestRisk}
+            </span>
+
         </div>
 
         <div style="
             display:flex;
-            gap:10px;
-            margin-top:20px;
+            gap:12px;
+            margin-top:28px;
         ">
 
             <button id="lg-continue"
             style="
                 flex:1;
-                padding:10px;
                 border:none;
+                padding:12px;
+                border-radius:8px;
                 background:#16a34a;
                 color:white;
-                border-radius:8px;
+                font-size:16px;
                 cursor:pointer;
             ">
                 Continue
@@ -118,11 +189,12 @@ function showLeakGuardPopup(findings, originalText, inputBox) {
             <button id="lg-sanitize"
             style="
                 flex:1;
-                padding:10px;
                 border:none;
+                padding:12px;
+                border-radius:8px;
                 background:#2563eb;
                 color:white;
-                border-radius:8px;
+                font-size:16px;
                 cursor:pointer;
             ">
                 Sanitize
@@ -131,53 +203,102 @@ function showLeakGuardPopup(findings, originalText, inputBox) {
             <button id="lg-cancel"
             style="
                 flex:1;
-                padding:10px;
                 border:none;
+                padding:12px;
+                border-radius:8px;
                 background:#dc2626;
                 color:white;
-                border-radius:8px;
+                font-size:16px;
                 cursor:pointer;
             ">
                 Cancel
             </button>
 
         </div>
+
     `;
 
-    overlay.appendChild(popup);
-    document.body.appendChild(overlay);
+  overlay.appendChild(popup);
 
-    // Continue
-    document.getElementById("lg-continue").onclick = () => {
+  document.body.appendChild(overlay);
 
-        console.log("✅ User selected Continue");
+  //-------------------------------------------------------
 
-        overlay.remove();
+  document.getElementById("lg-continue").onclick = () => {
+    sendLog("Continue", findings);
 
+    overlay.remove();
+
+    closeLeakGuardPopup();
+  };
+
+  //-------------------------------------------------------
+
+  document.getElementById("lg-cancel").onclick = () => {
+
+    sendLog("Cancelled", findings);
+
+    inputBox.innerText = "";
+
+    overlay.remove();
+
+    closeLeakGuardPopup();
+
+};
+  //-------------------------------------------------------
+
+  document.getElementById("lg-sanitize").onclick = () => {
+
+    sendLog("Sanitized", findings);
+
+    inputBox.innerText = Sanitizer.mask(originalText);
+
+    overlay.remove();
+
+    closeLeakGuardPopup();
+
+};
+}
+// ======================================
+// Send Log to Backend
+// ======================================
+
+async function sendLog(action, findings) {
+  chrome.storage.local.get(["employee"], async ({ employee }) => {
+    if (!employee) return;
+
+    const payload = {
+      employee_id: employee.id,
+
+      ai_tool: window.location.hostname,
+
+      detected_items: findings.map((item) => item.type),
+
+      severity: findings[0].risk,
+
+      action_taken: action,
+
+      website_url: window.location.href,
+
+      status: "Completed",
     };
 
-    // Cancel
-    document.getElementById("lg-cancel").onclick = () => {
+    try {
+      await fetch("http://localhost:5000/api/log", {
+        method: "POST",
 
-        console.log("❌ User cancelled");
+        headers: {
+          "Content-Type": "application/json",
+        },
 
-        inputBox.innerText = "";
+        body: JSON.stringify(payload),
+      });
 
-        overlay.remove();
+      console.log("✅ Log Sent");
+    } catch (err) {
+      console.log("Backend Error");
 
-    };
-
-    // Sanitize
-    document.getElementById("lg-sanitize").onclick = () => {
-
-        console.log("🧹 Sanitizing prompt...");
-
-        const sanitized = Sanitizer.mask(originalText);
-
-        inputBox.innerText = sanitized;
-
-        overlay.remove();
-
-    };
-
+      console.log(err);
+    }
+  });
 }
