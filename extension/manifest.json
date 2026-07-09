@@ -1,0 +1,53 @@
+{
+  "manifest_version": 3,
+  "name": "LeakGuard",
+  "description": "Intelligent Data Leak Prevention for AI Platforms",
+  "version": "1.0",
+
+  "permissions": [
+    "storage",
+    "tabs",
+    "activeTab",
+    "notifications"
+  ],
+
+  "host_permissions": [
+    "https://chatgpt.com/*",
+    "https://chat.openai.com/*",
+    "https://gemini.google.com/*",
+    "https://claude.ai/*",
+    "https://copilot.microsoft.com/*",
+    "https://www.perplexity.ai/*",
+    "https://grok.com/*"
+  ],
+
+  "background": {
+    "service_worker": "background.js"
+  },
+
+  "content_scripts": [
+    {
+      "matches": [
+        "https://chatgpt.com/*",
+        "https://chat.openai.com/*",
+        "https://gemini.google.com/*",
+        "https://claude.ai/*",
+        "https://copilot.microsoft.com/*",
+        "https://www.perplexity.ai/*",
+        "https://grok.com/*"
+      ],
+      "js": [
+        "detector.js",
+        "policyManager.js",
+        "sanitizer.js",
+        "content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "LeakGuard"
+  }
+}
