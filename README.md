@@ -108,7 +108,17 @@ When confidential information is detected:
 - Nodemailer
 
 ---
+# 📋 Prerequisites
 
+Before running LeakGuard, ensure you have:
+
+- Node.js (v18 or later)
+- npm
+- Google Chrome
+- A Supabase account
+- A Gmail account (for email notifications)
+- Git
+  
 # 📂 Project Structure
 
 ```
@@ -184,64 +194,7 @@ The extension automatically downloads the latest policies from the backend.
 - 🚨 Alerts
 - 📋 Activity Logs
 
----
 
-# 🗄 Database
-
-LeakGuard uses **Supabase** as the backend database.
-
-### Main Tables
-
-- Employees
-- Policies
-- Alerts
-- Activity Logs
-
-The backend securely communicates with Supabase using server-side credentials.
-
-
-# ⚙ Installation
-
-## Clone Repository
-
-```bash
-git clone https://github.com/aliya26205/LeakGuard.git
-```
-
----
-
-## Backend
-
-```bash
-cd backend
-npm install
-npm start
-```
-
----
-
-## Dashboard
-
-```bash
-cd dashboard
-npm install
-npm run dev
-```
-
----
-
-## Chrome Extension
-
-1. Open Google Chrome
-2. Navigate to:
-
-```
-chrome://extensions
-```
-
-3. Enable **Developer Mode**
-4. Click **Load unpacked**
-5. Select the **extension** folder
 
 ---
 
@@ -256,18 +209,6 @@ chrome://extensions
 - Role-Based Access Control
 - Organization-wide Policy Synchronization
 
-# 🔄 Workflow
-
-1.  Admin registers employee.
-2.  Activation Key is generated.
-3.  Welcome email is sent.
-4.  Employee installs the Chrome Extension.
-5.  Extension downloads active policies.
-6.  User types on supported AI platforms.
-7.  LeakGuard detects sensitive information.
-8.  Warning popup appears.
-9.  Activity is logged.
-10. Admin reviews alerts and logs.
 
 # 🗄️ Database Setup
 
@@ -291,37 +232,72 @@ EMAIL_PASS=YOUR_GMAIL_APP_PASSWORD
 > **Never commit your real `.env` file to GitHub.** Only commit
 > `.env.example`.
 
-# 🚀 Installation
 
-``` bash
+# ⚙ Installation
+
+## 1. Clone Repository
+
+```bash
 git clone https://github.com/aliya26205/LeakGuard.git
 ```
 
-### Backend
+## 2. Backend Setup
 
-``` bash
+```bash
 cd backend
 npm install
+```
+
+## 3. Create Environment File
+
+Copy:
+
+```
+.env.example
+```
+
+Rename it to:
+
+```
+.env
+```
+
+Update the values:
+
+```env
+PORT=5000
+SUPABASE_URL=YOUR_SUPABASE_URL
+SUPABASE_SERVICE_ROLE_KEY=YOUR_SUPABASE_SERVICE_ROLE_KEY
+EMAIL_USER=YOUR_EMAIL@gmail.com
+EMAIL_PASS=YOUR_GMAIL_APP_PASSWORD
+```
+
+Start the backend:
+
+```bash
 npm start
 ```
 
-### Dashboard
+## 4. Dashboard
 
-``` bash
-cd dashboard
+```bash
+cd ../dashboard
 npm install
 npm run dev
 ```
 
-### Chrome Extension
+## 5. Database
 
-1.  Open `chrome://extensions`
-2.  Enable **Developer Mode**
-3.  Click **Load unpacked**
-4.  Select the `extension` folder
+- Create a Supabase project.
+- Open SQL Editor.
+- Run `database/schema.sql`.
 
+## 6. Chrome Extension
 
----
+1. Open `chrome://extensions`
+2. Enable Developer Mode.
+3. Click **Load unpacked**.
+4. Select the `extension` folder.
 
 # 📸 Screenshots
 
@@ -392,14 +368,6 @@ npm run dev
 -   Create your own Supabase project and Gmail App Password.
 -   Never expose production credentials.
 
-# 💡 Future Enhancements
-
--   OCR-based detection
--   File upload monitoring
--   Email monitoring
--   Multi-browser support
--   AI-powered classification
--   Role-based access control
 
 # 👥 Team
 
