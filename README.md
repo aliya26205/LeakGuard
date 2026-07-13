@@ -320,64 +320,70 @@ npm run dev
 3.  Click **Load unpacked**
 4.  Select the `extension` folder
 
+
+---
+
 # 📸 Screenshots
 
-Place these images in the `screenshots/` folder.
-
--   Dashboard.jpeg
--   login.jpeg
--   employee.jpeg
--   add_emp.jpeg
--   policy.jpeg
--   add_policy.jpeg
--   alerts.jpeg
--   activity_log.jpeg
--   extension.jpeg
--   mail.jpeg
-
-Example:
-
-``` md
-## Dashboard
-
-![Dashboard](screenshots/Dashboard.jpeg)
-
-## Login
+## 🔐 Login
 
 ![Login](screenshots/login.jpeg)
 
-## Employee Management
+---
+
+## 📊 Dashboard
+
+![Dashboard](screenshots/Dashboard.jpeg)
+
+---
+
+## 👥 Employee Management
 
 ![Employees](screenshots/employee.jpeg)
 
-## Add Employee
+---
+
+## ➕ Add Employee
 
 ![Add Employee](screenshots/add_emp.jpeg)
 
-## Policy Management
+---
 
-![Policies](screenshots/policy.jpeg)
+## 🛡 Policy Management
 
-## Add Policy
+![Policy](screenshots/policy.jpeg)
+
+---
+
+## ➕ Add Policy
 
 ![Add Policy](screenshots/add_policy.jpeg)
 
-## Alerts
+---
+
+## 🚨 Alerts
 
 ![Alerts](screenshots/alerts.jpeg)
 
-## Activity Logs
+---
+
+## 📋 Activity Logs
 
 ![Logs](screenshots/activity_log.jpeg)
 
-## Chrome Extension
+---
+
+## 🧩 Chrome Extension
 
 ![Extension](screenshots/extension.jpeg)
 
-## Welcome Email
+---
 
-![Email](screenshots/mail.jpeg)
-```
+## 📧 Welcome Email
+
+![Mail](screenshots/mail.jpeg)
+
+---
 
 # 🔒 Security
 
