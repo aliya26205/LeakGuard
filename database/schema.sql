@@ -1,8 +1,12 @@
--- =====================================
+-- ===========================================================
 -- LeakGuard Database Schema
--- PostgreSQL (Supabase)
--- =====================================
-
+-- Database: PostgreSQL (Supabase)
+-- Author: Aliya Banu
+-- Project: LeakGuard
+-- Description:
+-- This script creates all database tables required for
+-- the LeakGuard Intelligent Data Leak Prevention System.
+-- ===========================================================
 -- Extensions
 
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
