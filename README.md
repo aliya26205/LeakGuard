@@ -1,69 +1,338 @@
 # 🛡️ LeakGuard
+### Intelligent Data Leak Prevention System for Modern Workplaces
 
-> **Intelligent Data Leak Prevention System for Modern Workplaces**
-
-![Platform](https://img.shields.io/badge/Platform-Chrome_Extension-success)
-![Frontend](https://img.shields.io/badge/Frontend-React-blue)
+![License](https://img.shields.io/badge/Project-College-blue)
+![Platform](https://img.shields.io/badge/Platform-Chrome%20Extension-success)
 ![Backend](https://img.shields.io/badge/Backend-Node.js-green)
+![Frontend](https://img.shields.io/badge/Frontend-React-blue)
 ![Database](https://img.shields.io/badge/Database-Supabase-3ECF8E)
 
-------------------------------------------------------------------------
+---
 
-# 📖 Overview
+## 📖 About The Project
 
-LeakGuard is a Data Leak Prevention (DLP) solution built as an MCA
-cybersecurity project. It helps prevent employees from accidentally
-sharing confidential information on AI platforms by monitoring prompts
-in real time through a Chrome Extension.
+LeakGuard is a browser-based **Data Leak Prevention (DLP)** system designed to reduce the risk of employees accidentally sharing confidential company information with AI tools and web applications.
 
-## ✨ Features
+The system continuously monitors user input on supported websites, detects sensitive information using customizable security policies, alerts users before data is submitted, and provides administrators with a centralized dashboard for monitoring activities and managing security policies.
 
--   Real-time sensitive data detection
--   Policy-based detection engine
--   Chrome Extension (Manifest V3)
--   Admin Dashboard
--   Employee Management
--   Policy Management
--   Alerts & Activity Logs
--   Automatic employee activation email
--   Supabase database integration
+The project was developed as a cybersecurity-focused academic project to demonstrate practical implementation of browser security, policy-based detection, and real-time monitoring.
 
-## 🌐 Supported AI Platforms
+---
 
--   ChatGPT
--   Google Gemini
--   Claude
--   Microsoft Copilot
--   Perplexity AI
--   Grok
+# ✨ Key Features
 
-# 🛠️ Tech Stack
+### 🔒 Sensitive Data Detection
 
-**Frontend** - React - Vite - HTML - CSS - JavaScript
+LeakGuard detects:
 
-**Backend** - Node.js - Express.js
+- 📧 Email Addresses
+- 📱 Phone Numbers
+- 🆔 Aadhaar Numbers
+- 🪪 PAN Numbers
+- 💳 Credit Card Numbers
+- 🔑 API Keys
+- 🔐 Passwords
+- 🏢 Employee IDs
+- 📝 Custom Regex Patterns
 
-**Database** - Supabase (PostgreSQL)
+---
 
-**Extension** - Chrome Extension (Manifest V3)
+### 🌐 Supported Platforms
 
-------------------------------------------------------------------------
+LeakGuard currently monitors:
+
+- ChatGPT
+- Google Gemini
+- Claude AI
+- Microsoft Copilot
+- Perplexity AI
+- Grok
+
+---
+
+### 👨‍💼 Admin Dashboard
+
+- Dashboard Analytics
+- Employee Management
+- Policy Management
+- Alert Monitoring
+- Activity Logs
+- Employee Registration
+- Activation Key Generation
+- Automatic Welcome Email
+
+---
+
+### ⚠️ Real-Time Protection
+
+When confidential information is detected:
+
+- Sensitive data is identified instantly.
+- A warning popup is displayed.
+- Risk level is shown.
+- Users can sanitize their content before submission.
+- Activities are logged.
+- Alerts are sent to administrators.
+
+---
+
+# 🛠 Tech Stack
+
+## Frontend
+
+- React.js
+- Vite
+- HTML5
+- CSS3
+- JavaScript
+
+## Backend
+
+- Node.js
+- Express.js
+
+## Database
+
+- Supabase
+
+## Browser Extension
+
+- Chrome Extension (Manifest V3)
+
+## Tools
+
+- Git
+- GitHub
+- REST APIs
+- Chrome Storage API
+- Nodemailer
+
+---
 
 # 📂 Project Structure
 
-``` text
-LeakGuard/
-├── backend/
-├── dashboard/
-├── extension/
-├── database/
-│   ├── schema.sql
-│   └── README.md
-├── screenshots/
-├── Docs/
-├── README.md
-└── .gitignore
 ```
+LeakGuard
+│
+├── backend
+│   ├── controllers
+│   ├── routes
+│   ├── server.js
+│   ├── package.json
+│
+├── dashboard
+│   ├── src
+│   ├── public
+│
+├── extension
+│   ├── background.js
+│   ├── content.js
+│   ├── detector.js
+│   ├── popupUI.js
+│   ├── sanitizer.js
+│   ├── manifest.json
+│
+├── database
+│   └── schema.sql
+│
+├── screenshots
+│
+└── README.md
+```
+
+---
+
+# 🚀 How LeakGuard Works
+
+1. Administrator registers a new employee.
+2. System generates an Employee ID and Activation Key.
+3. Welcome email is automatically sent.
+4. Employee installs the Chrome Extension.
+5. Employee activates the extension.
+6. LeakGuard downloads the latest security policies.
+7. User visits supported AI websites.
+8. LeakGuard scans every prompt before submission.
+9. If sensitive information is detected:
+   - Warning popup appears.
+   - Activity is logged.
+   - Alert is created.
+10. Administrators can review all events from the dashboard.
+
+---
+
+# 🔐 Policy Engine
+
+LeakGuard uses a **policy-based detection engine**.
+
+Administrators can:
+
+- Create new policies
+- Delete policies
+- Enable/Disable policies
+- Configure Regex Patterns
+- Set Risk Levels
+
+The extension automatically downloads the latest policies from the backend.
+
+---
+
+# 📊 Dashboard Modules
+
+- 📈 Dashboard Overview
+- 👥 Employee Management
+- 🛡 Policy Management
+- 🚨 Alerts
+- 📋 Activity Logs
+
+---
+
+# 🗄 Database
+
+LeakGuard uses **Supabase** as the backend database.
+
+### Main Tables
+
+- Employees
+- Policies
+- Alerts
+- Activity Logs
+
+The backend securely communicates with Supabase using server-side credentials.
+
+---
+
+# 📸 Screenshots
+
+## 🔐 Login
+
+![Login](screenshots/login.jpeg)
+
+---
+
+## 📊 Dashboard
+
+![Dashboard](screenshots/Dashboard.jpeg)
+
+---
+
+## 👥 Employee Management
+
+![Employees](screenshots/employee.jpeg)
+
+---
+
+## ➕ Add Employee
+
+![Add Employee](screenshots/add_emp.jpeg)
+
+---
+
+## 🛡 Policy Management
+
+![Policy](screenshots/policy.jpeg)
+
+---
+
+## ➕ Add Policy
+
+![Add Policy](screenshots/add_policy.jpeg)
+
+---
+
+## 🚨 Alerts
+
+![Alerts](screenshots/alerts.jpeg)
+
+---
+
+## 📋 Activity Logs
+
+![Logs](screenshots/activity_log.jpeg)
+
+---
+
+## 🧩 Chrome Extension
+
+![Extension](screenshots/extension.jpeg)
+
+---
+
+## 📧 Welcome Email
+
+![Mail](screenshots/mail.jpeg)
+
+---
+
+# ⚙ Installation
+
+## Clone Repository
+
+```bash
+git clone https://github.com/aliya26205/LeakGuard.git
+```
+
+---
+
+## Backend
+
+```bash
+cd backend
+npm install
+npm start
+```
+
+---
+
+## Dashboard
+
+```bash
+cd dashboard
+npm install
+npm run dev
+```
+
+---
+
+## Chrome Extension
+
+1. Open Google Chrome
+2. Navigate to:
+
+```
+chrome://extensions
+```
+
+3. Enable **Developer Mode**
+4. Click **Load unpacked**
+5. Select the **extension** folder
+
+---
+
+# 💡 Future Enhancements
+
+- AI-based Sensitive Data Detection
+- OCR Image Scanning
+- File Upload Protection
+- Email Monitoring
+- Cloud Storage Monitoring
+- Multi-browser Support
+- Role-Based Access Control
+- Organization-wide Policy Synchronization
+
+---
+
+# 👩‍💻 Developer
+
+**Aliya Banu**
+
+MCA Student
+
+Department of Computer Applications
+
+St Joseph Engineering College, Vamanjoor, Mangaluru
+
+---
+
 
 # 🔄 Workflow
 
