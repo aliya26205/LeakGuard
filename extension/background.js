@@ -1,8 +1,12 @@
-// LeakGuard - Background Service Worker
+// =====================================
+// LeakGuard Background Service Worker
+// =====================================
 
 console.log("✅ LeakGuard Background Service Started");
 
+// ----------------------------
 // Supported AI Platforms
+// ----------------------------
 const AI_SITES = [
     "chatgpt.com",
     "chat.openai.com",
@@ -13,30 +17,75 @@ const AI_SITES = [
     "grok.com"
 ];
 
-// Detect when a tab is updated
+// ----------------------------
+// Load Policies from Backend
+// ----------------------------
+async function loadPolicies() {
+
+    try {
+
+        const response = await fetch("http://localhost:5000/api/policies");
+
+        const result = await response.json();
+
+        if (result.success) {
+
+            await chrome.storage.local.set({
+                policies: result.data
+            });
+
+            console.log("✅ Policies Loaded");
+
+            console.log(result.data);
+
+        } else {
+
+            console.log("No policies received");
+
+        }
+
+    } catch (error) {
+
+        console.error("Failed to load policies:", error);
+
+    }
+
+}
+
+// Load once when extension starts
+loadPolicies();
+
+// Refresh every 5 minutes
+setInterval(loadPolicies, 5 * 60 * 1000);
+
+// ----------------------------
+// Detect Supported AI Websites
+// ----------------------------
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 
     if (changeInfo.status !== "complete" || !tab.url) return;
 
-    const matchedSite = AI_SITES.find(site => tab.url.includes(site));
+    const matchedSite = AI_SITES.find(site =>
+        tab.url.includes(site)
+    );
 
     if (matchedSite) {
 
         console.log("🟢 LeakGuard Active on:", matchedSite);
 
         chrome.action.setBadgeText({
-            tabId: tabId,
+            tabId,
             text: "ON"
         });
 
         chrome.action.setBadgeBackgroundColor({
-            color: "#16a34a" // Green
+            color: "#16a34a"
         });
 
     } else {
 
         chrome.action.setBadgeText({
-            tabId: tabId,
+            tabId,
             text: ""
         });
 
@@ -44,21 +93,23 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 
 });
 
-
-// Listen for messages from content.js
+// ----------------------------
+// Listen for Messages
+// ----------------------------
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
     switch (message.type) {
 
         case "SENSITIVE_DATA_DETECTED":
 
-            console.log("⚠ Sensitive Data Found");
+            console.log("⚠ Sensitive Data Detected");
 
             console.log(message.data);
 
             // TODO:
-            // Send to backend later
-            // Save to Supabase later
+            // Send logs to backend
+            // Store activity in Supabase
+            // Generate alerts
 
             sendResponse({
                 success: true
@@ -76,9 +127,22 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
             break;
 
+        case "GET_POLICIES":
+
+            chrome.storage.local.get("policies", (data) => {
+
+                sendResponse({
+                    success: true,
+                    policies: data.policies || []
+                });
+
+            });
+
+            return true;
+
         default:
 
-            console.log("Unknown message:", message);
+            console.log("Unknown Message:", message);
 
             sendResponse({
                 success: false

@@ -59,6 +59,15 @@ export default function Employees({ adminName = "Admin" }) {
 
   const [loading, setLoading] = useState(true);
 
+  const [showModal, setShowModal] = useState(false);
+
+const [form, setForm] = useState({
+  employee_id: "",
+  full_name: "",
+  email: "",
+  department: "",
+});
+
   useEffect(() => {
 
     fetchEmployees();
@@ -144,7 +153,32 @@ export default function Employees({ adminName = "Admin" }) {
     }
 
   };
+const saveEmployee = async () => {
 
+  try {
+
+    await api.post("/employees", form);
+
+    fetchEmployees();
+
+    setShowModal(false);
+
+    setForm({
+      employee_id: "",
+      full_name: "",
+      email: "",
+      department: "",
+    });
+
+    alert("Employee Added Successfully");
+
+  } catch (err) {
+
+    alert(err.response?.data?.message);
+
+  }
+
+};
   if (loading) {
 
     return (
@@ -230,14 +264,23 @@ export default function Employees({ adminName = "Admin" }) {
 
                 </button>
 
+
               ))}
+              
 
             </div>
+            
 
           )}
 
         </div>
-
+<button
+    className="btn-primary emp-add-btn"
+    onClick={() => setShowModal(true)}
+  >
+    <Plus size={16} />
+    Add Employee
+  </button>
       </div>
 
       {/* Table */}
@@ -398,7 +441,87 @@ export default function Employees({ adminName = "Admin" }) {
     </div>
 
   </div>
+{showModal && (
 
+<div className="modal-overlay">
+
+  <div className="employee-modal">
+
+    <h2>Add Employee</h2>
+
+    <input
+      placeholder="Employee ID"
+      value={form.employee_id}
+      onChange={(e)=>
+        setForm({
+          ...form,
+          employee_id:e.target.value
+        })
+      }
+    />
+
+    <input
+      placeholder="Full Name"
+      value={form.full_name}
+      onChange={(e)=>
+        setForm({
+          ...form,
+          full_name:e.target.value
+        })
+      }
+    />
+
+    <input
+      placeholder="Email"
+      value={form.email}
+      onChange={(e)=>
+        setForm({
+          ...form,
+          email:e.target.value
+        })
+      }
+    />
+
+    <input
+      placeholder="Department"
+      value={form.department}
+      onChange={(e)=>
+        setForm({
+          ...form,
+          department:e.target.value
+        })
+      }
+    />
+
+    <div
+      style={{
+        display:"flex",
+        gap:"10px",
+        marginTop:"20px"
+      }}
+    >
+
+      <button
+        className="btn-primary"
+        onClick={saveEmployee}
+      >
+        Save
+      </button>
+
+      <button
+        className="btn-secondary"
+        onClick={()=>setShowModal(false)}
+      >
+        Cancel
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+)}
 </div>
 
 );

@@ -51,7 +51,34 @@ function initializeLeakGuard() {
 
 }
 
-function checkPrompt(inputBox) {
+// function checkPrompt(inputBox) {
+
+//     const text = inputBox.innerText.trim();
+
+//     if (text.length === 0) return;
+
+//     console.log("Checking Prompt:");
+//     console.log(text);
+
+//     const findings = LeakDetector.detect(text);
+
+//     if (findings.length === 0) {
+
+//         popupOpen = false;
+//         return;
+
+//     }
+
+//     console.table(findings);
+
+//     if (popupOpen) return;
+
+//     popupOpen = true;
+
+//     showLeakGuardPopup(findings, text, inputBox);
+
+// }
+async function checkPrompt(inputBox) {
 
     const text = inputBox.innerText.trim();
 
@@ -60,7 +87,7 @@ function checkPrompt(inputBox) {
     console.log("Checking Prompt:");
     console.log(text);
 
-    const findings = LeakDetector.detect(text);
+    const findings = await LeakDetector.detect(text);
 
     if (findings.length === 0) {
 
@@ -77,8 +104,25 @@ function checkPrompt(inputBox) {
 
     showLeakGuardPopup(findings, text, inputBox);
 
-}
+    chrome.runtime.sendMessage({
 
+        type: "SENSITIVE_DATA_DETECTED",
+
+        data: {
+
+            prompt: text,
+
+            findings: findings,
+
+            url: window.location.href,
+
+            timestamp: new Date().toISOString()
+
+        }
+
+    });
+
+}
 function closeLeakGuardPopup() {
 
     popupOpen = false;

@@ -4,10 +4,17 @@
 
 const supabase = require("./supabase");
 const crypto = require("crypto");
-
+const nodemailer = require("nodemailer");
 // ==========================================
 // Save Activity Log
 // ==========================================
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
 
 const saveLog = async (req, res) => {
   try {
@@ -358,7 +365,33 @@ const addEmployee = async (req, res) => {
         message: error.message,
       });
     }
+    await transporter.sendMail({
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: "Welcome to LeakGuard",
+      html: `
+    <h2>Welcome to LeakGuard</h2>
 
+    <p>Hello <b>${full_name}</b>,</p>
+
+    <p>Your LeakGuard account has been created.</p>
+
+    <p><b>Employee ID:</b> ${employee_id}</p>
+
+    <p><b>Activation Key:</b> ${activation_key}</p>
+
+    <p>Install the LeakGuard Extension and register using the above credentials.
+    
+  <a href="https://drive.google.com/drive/folders/1ja1aVrgpPjGnCxiHPAVvHsOkt0xyRDBT?usp=sharing" target="_blank">
+    📥 Download LeakGuard Extension
+  </a>
+</p>
+
+    <br>
+
+    <p>LeakGuard Security Team</p>
+  `,
+    });
     res.json({
       success: true,
       message: "Employee Added Successfully",
