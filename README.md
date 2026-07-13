@@ -199,69 +199,6 @@ LeakGuard uses **Supabase** as the backend database.
 
 The backend securely communicates with Supabase using server-side credentials.
 
----
-
-# 📸 Screenshots
-
-## 🔐 Login
-
-![Login](screenshots/login.jpeg)
-
----
-
-## 📊 Dashboard
-
-![Dashboard](screenshots/Dashboard.jpeg)
-
----
-
-## 👥 Employee Management
-
-![Employees](screenshots/employee.jpeg)
-
----
-
-## ➕ Add Employee
-
-![Add Employee](screenshots/add_emp.jpeg)
-
----
-
-## 🛡 Policy Management
-
-![Policy](screenshots/policy.jpeg)
-
----
-
-## ➕ Add Policy
-
-![Add Policy](screenshots/add_policy.jpeg)
-
----
-
-## 🚨 Alerts
-
-![Alerts](screenshots/alerts.jpeg)
-
----
-
-## 📋 Activity Logs
-
-![Logs](screenshots/activity_log.jpeg)
-
----
-
-## 🧩 Chrome Extension
-
-![Extension](screenshots/extension.jpeg)
-
----
-
-## 📧 Welcome Email
-
-![Mail](screenshots/mail.jpeg)
-
----
 
 # ⚙ Installation
 
@@ -318,21 +255,6 @@ chrome://extensions
 - Multi-browser Support
 - Role-Based Access Control
 - Organization-wide Policy Synchronization
-
----
-
-# 👩‍💻 Developer
-
-**Aliya Banu**
-
-MCA Student
-
-Department of Computer Applications
-
-St Joseph Engineering College, Vamanjoor, Mangaluru
-
----
-
 
 # 🔄 Workflow
 
@@ -479,7 +401,19 @@ Example:
 -   **Chaithra**
 -   **Lavisha**
 -   **Deeksha**
+---
 
+# 👩‍💻 Developer
+
+**Aliya Banu**
+
+MCA Student
+
+Department of Computer Applications
+
+St Joseph Engineering College, Vamanjoor, Mangaluru
+
+---
 # 🔗 Connect
 
 **GitHub:** https://github.com/aliya26205
